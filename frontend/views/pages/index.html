@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entre | Cadastre-se</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="index">
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <h4 class="h3">Bem-vindo(a)</h4>
+          <form>
+            <input type="text" id="login" class="fadeIn second cpf" name="entrar_cpf" placeholder="CPF" required
+            onkeydown="javascript: fMasc( this, mCPF );" MAXLENGTH="14">
+            <input type="submit" class="fadeIn fourth" value="ENTRAR">
+          </form>
+          <div id="formFooter">
+            <a class="underlineHover" href="cadastro-cliente.html">Não é cliente? Cadastre-se</a>
+          </div>
+        </div>
+      </div>
+      <script src="../assets/js/jquery.js"></script>
+      <script src="../assets/js/input_field_validator.js"></script>
+</body>
+</html>

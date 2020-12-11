@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Cadastro | Cliente</title>
+     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+     <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+     <header>
+          <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+               <div class="container">
+                    <a href="#" class="navbar-brand">
+                        Controle Financeiro
+                    </a>
+               </div>
+          </nav>
+     </header>
+     <div class="container">
+          <form action="" id="form-cadastro-fornecedor" class="bg-light ml-auto mr-auto mt-3 p-4 rounded">
+               <div id="double_req_block" class="d-none h-double-req">
+                    <div class="row">
+                         <div class="container">
+                              <div class="col d-flex justify-content-center">
+                                   <div class="spinner-dual" id="spinner-loader"></div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <div class="text-center mb-4">
+                    <h1 class="display-4 font-titulo-form">Cadastre um Cliente</h1>
+               </div>
+               <div class="form-row ">
+                    <div id="nome_wrapper" class="form-group col-md-5 pl-2">
+                         <label for="nome">Nome<span class="text-danger">*</span></label>
+                         <input type="text" class="form-control" id="nome" required>
+                    </div>
+                    <div id="cpf_wrapper" class="form-group col-md-4 pr-2">
+                        <label for="cpf">CPF<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="cpf" required
+                             onkeydown="javascript: fMasc( this, mCPF );" MAXLENGTH="14">
+                    </div>
+                    <div class="form-group col-md-3 pl-2">
+                        <label for="uf">UF</span></label>
+                        <select id="uf" class="form-control w-15" required>
+                             <option value="0" selected disabled>Selecione UF</option>
+                             <option value="AC">Acre</option>
+                             <option value="AL">Alagoas</option>
+                             <option value="AP">Amapá</option>
+                             <option value="AM">Amazonas</option>
+                             <option value="BA">Bahia</option>
+                             <option value="CE">Ceará</option>
+                             <option value="DF">Distrito Federal</option>
+                             <option value="ES">Espírito Santo</option>
+                             <option value="GO">Goiás</option>
+                             <option value="MA">Maranhão</option>
+                             <option value="MT">Mato Grosso</option>
+                             <option value="MS">Mato Grosso do Sul</option>
+                             <option value="MG">Minas Gerais</option>
+                             <option value="PA">Pará</option>
+                             <option value="PB">Paraíba</option>
+                             <option value="PR">Paraná</option>
+                             <option value="PE">Pernambuco</option>
+                             <option value="PI">Piauí</option>
+                             <option value="RJ">Rio de Janeiro</option>
+                             <option value="RN">Rio Grande do Norte</option>
+                             <option value="RS">Rio Grande do Sul</option>
+                             <option value="RO">Rondônia</option>
+                             <option value="RR">Roraima</option>
+                             <option value="SC">Santa Catarina</option>
+                             <option value="SP">São Paulo</option>
+                             <option value="SE">Sergipe</option>
+                             <option value="TO">Tocantins</option>
+                             <option value="EX">Estrangeiro</option>
+                        </select>
+                   </div>
+               </div>
+               <div class="form-row ">
+               </div>
+               <div class="form-row ">
+                    <div class="form-group col-md-6 pr-2">
+                         <label for="email">Email</label>
+                         <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="form-group col-md-6 pl-2">
+                         <label for="celular">Celular/Telefone</label>
+                         <input type="text" class="form-control" id="contato"
+                              onkeydown="javascript: fMasc( this, mTel);" MAXLENGTH="14">
+                    </div>
+               </div>
+               <div class="w-100 d-flex justify-content-center">
+                    <!-- Valida cpf antes de cadastrar -->
+                    <button type="button" id="btn-cadastrar" class="btn btn-primary btn-lg" onclick="(validaCpf($('#cpf').val()) ? cadastroCliente() : alert('CPF inválido!'))">
+                         Cadastrar
+                    </button>
+               </div>
+          </form>
+     </div>
+     <script src="../assets/js/jquery.js"></script>
+     <script src="../assets/js/input_field_validator.js"></script>
+     <script src="../assets/js/cadastro-cliente.js"></script>
+</body>
+
+</html>

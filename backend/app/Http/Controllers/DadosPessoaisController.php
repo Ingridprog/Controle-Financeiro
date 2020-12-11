@@ -35,7 +35,8 @@ class DadosPessoaisController extends Controller
             'cpf'       =>['required', 'string'],
             'uf'        =>['string', 'nullable'],
             'telefone'  =>['string', 'nullable'],
-            'email'     =>['string', 'nullable']
+            'email'     =>['string', 'nullable'],
+            'saldo'     =>['nullable']
         ])->validate();
 
         try{
