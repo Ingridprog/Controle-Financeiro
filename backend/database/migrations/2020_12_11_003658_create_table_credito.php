@@ -22,7 +22,7 @@ class CreateTableCredito extends Migration
             $table->unsignedBigInteger('id_pessoa');
             $table->timestamps();
 
-            $table->foreign('id_pessoa')->references('id')->on('dados_pessoais')->onDelete('cascade');
+            $table->foreign('id_pessoa')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

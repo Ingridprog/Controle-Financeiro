@@ -4,6 +4,7 @@ function cadastroCliente() {
     let uf = $("#uf").val() ?? "";
     let email = $("#email").val() ?? "";
     let contato = $("#contato").val() ?? "";
+    let senha = $("#password").val();
 
     $.ajax({
         url: 'http://127.0.0.1:8000/api/v1/dadospessoais',
@@ -18,7 +19,8 @@ function cadastroCliente() {
             uf: uf,
             email: email,
             contato: contato,
-            saldo: 0.0
+            saldo: 0.0,
+            password: senha
         },
         beforeSend: function () {
             $("#double_req_block").removeClass('d-none')

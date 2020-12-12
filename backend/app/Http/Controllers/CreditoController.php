@@ -8,6 +8,7 @@ use App\Credito;
 use App\Api\ApiMessege;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\DadosPessoaisController;
+use App\User;
 
 class CreditoController extends Controller
 {
@@ -22,7 +23,7 @@ class CreditoController extends Controller
   
     public function index()
     {
-        $credito = $this->credito->all();
+        $credito = auth('api')->user()->creditos;
 
         return response()->json([
             'data' => $credito
@@ -40,6 +41,9 @@ class CreditoController extends Controller
         ])->validate();
 
         try{
+
+            $data['id_pessoa'] = auth('api')->user()->id;
+
             $credito = $this->credito->create($data);
 
             $this->dadosPessoaisController->atualizarSaldo($data['valor'], $data['id_pessoa'], 1);
@@ -49,21 +53,36 @@ class CreditoController extends Controller
                 'data'      => $credito
             ], 201);
         }catch(\Exception $e){
-            $messege = new ApiMesseges($e->getMessage());
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 400);
         }
     }
 
+    // public function show($idPessoa)
+    // {
+    //     try{
+    //         $data = $this->credito->where('id_pessoa', '=', $idPessoa)->get();
+
+    //         return response()->json([
+    //             'data' => $data
+    //         ], 200);
+
+    //     }catch(\Exception $e){
+    //         $messege = new ApiMessege($e->getMessage());
+    //         return response()->json($messege->getMessege(), 400);
+    //     }
+    // }
+
     public function show($id)
     {
         try{
-            $credito = $this->credito->findOrFail($id);
+            $credito = auth('api')->user()->creditos()->findOrFail($id);
 
             return response()->json([
                 'data' => $credito
             ], 200);
-        }catch(\Execption $e){
-            $messege = new ApiMesseges($e->getMessage());
+        }catch(\Exception $e){
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 401);
         }
     }

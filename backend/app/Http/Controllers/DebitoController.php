@@ -21,7 +21,7 @@ class DebitoController extends Controller
 
     public function index()
     {
-        $debito = $this->debito->all();
+        $debito = auth('api')->user()->debitos;
 
         return response()->json([
             'data'=> $debito
@@ -38,43 +38,65 @@ class DebitoController extends Controller
             'destinatario'   => ['string', 'nullable']
         ])->validate();
 
-        if($data['transferencia'] == 1){
-            $this->dadosPessoaisController->transferir($data['id_pessoa'], $data['destinatario'], $data['valor']);
-
-            return response()->json([
-                'messege' => "Transfêrencia concluída com sucesso!"
-            ], 201);
-        }
-            
-        else{
             try{
-                $debito = $this->debito->create($data);
+
+                $data['id_pessoa'] = auth('api')->user()->id;
+
+                if(floatval($this->dadosPessoaisController->verificarSaldo($data['id_pessoa'])) >= floatval($data['valor'])){
+                    $debito = $this->debito->create($data);
+
+                    if($data['transferencia'] == 1){
+                        $this->dadosPessoaisController->transferir($data['id_pessoa'], $data['destinatario'], $data['valor']);
+            
+                        return response()->json([
+                            'messege' => "Transfêrencia concluída com sucesso!"
+                        ], 201);
+                    }
+
+                    $this->dadosPessoaisController->atualizarSaldo($data['valor'], $data['id_pessoa'], 2);
     
-                $this->dadosPessoaisController->atualizarSaldo($data['valor'], $data['id_pessoa'], 2);
-    
-                return response()->json([
-                    'messege'   => 'Débito adicionado com sucesso!',
-                    'data'      => $debito
-                ], 201);
-    
+                    return response()->json([
+                        'messege'   => 'Débito adicionado com sucesso!',
+                        'data'      => $debito
+                    ], 201);
+                }else{
+                    return response()->json([
+                        'messege' => 'Não foi!'
+                    ], 400);
+                }
             }catch(\Exception $e){
-                $messege = new ApiMesseges($e->getMessage());
+                $messege = new ApiMessege($e->getMessage());
                 return response()->json($messege->getMessege(), 400);
             }
-        }
     }
+
+    // public function show($idPessoa)
+    // {
+    //     try{
+    //         $data = $this->debito->where('id_pessoa', '=', $idPessoa)->get();
+
+    //         return response()->json([
+    //             'data' => $data
+    //         ], 200);
+    //     }catch(\Execption $e){
+    //         $messege = new ApiMessege($e->getMessage());
+    //         return response()->json($messege->getMessege(), 401);
+    //     }
+    // }
 
     public function show($id)
     {
         try{
-            $debito = $this->debito->findOrFail($id);
+            $debito = auth('api')->user()->debitos()->findOrFail($id);
 
             return response()->json([
-                'data' => $credito
+                'data' => $debito
             ], 200);
-        }catch(\Execption $e){
-            $messege = new ApiMesseges($e->getMessage());
+        }catch(\Exception $e){
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 401);
         }
     }
+
+
 }

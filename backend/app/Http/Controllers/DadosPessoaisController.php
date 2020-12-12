@@ -7,12 +7,13 @@ use App\Dados_pessoais;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 class DadosPessoaisController extends Controller
 {
     private $dadosPessoais;
 
-    public function __construct(Dados_pessoais $dadosPessoais)
+    public function __construct(User $dadosPessoais)
     {
         $this->dadosPessoais = $dadosPessoais;
     }
@@ -36,10 +37,14 @@ class DadosPessoaisController extends Controller
             'uf'        =>['string', 'nullable'],
             'telefone'  =>['string', 'nullable'],
             'email'     =>['string', 'nullable'],
-            'saldo'     =>['nullable']
+            'saldo'     =>['nullable'],
+            'password'  =>['required', 'string']
         ])->validate();
 
         try{
+
+            $data['password'] = bcrypt($data['password']);
+
             $dadosPessoais = $this->dadosPessoais->create($data);
 
             return response()->json([
@@ -48,7 +53,7 @@ class DadosPessoaisController extends Controller
             ], 201);
 
         }catch(\Exception $e){
-            $messege = new ApiMesseges($e->getMessage());
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 400);
         }
     }
@@ -63,7 +68,7 @@ class DadosPessoaisController extends Controller
             ], 200);
 
         }catch(\Exception $e){
-            $messege = new ApiMesseges($e->getMessage());
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 404);
         }
     }
@@ -76,11 +81,18 @@ class DadosPessoaisController extends Controller
             'cpf'       =>['string'],
             'uf'        =>['string', 'nullable'],
             'telefone'  =>['string', 'nullable'],
-            'email'     =>['string', 'nullable']
+            'email'     =>['string', 'nullable'],
+            'password'  =>['string']
         ])->validate();
 
         try{
             $dadosPessoais = $this->dadosPessoais->findOrFail($id);
+
+            if($request->has('password') && $request->get('password')){
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                unset($data['password']);
+            }
 
             $dadosPessoais->update($data);
 
@@ -89,7 +101,7 @@ class DadosPessoaisController extends Controller
                 'data' => $dadosPessoais
             ], 200);
         }catch(\Exception $e){
-            $messege = new ApiMesseges($e->getMessage());
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 400);
         }
     }
@@ -105,7 +117,7 @@ class DadosPessoaisController extends Controller
                 'messege' => 'Cliente excluído com sucesso!'
             ], 200);
         }catch(\Exception $e){
-            $messege = new ApiMesseges($e->getMessage());
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 400);
         }
     }
@@ -123,25 +135,49 @@ class DadosPessoaisController extends Controller
                 }
             }
         }catch(\Exception $e){
-            $messege = new ApiMesseges($e->getMessage());
+            $messege = new ApiMessege($e->getMessage());
             return response()->json($messege->getMessege(), 400);
         }
 
     }
 
     public function transferir($id,$destinario,$valor)
-    {   
+    {
         $dest = $this->dadosPessoais->where('cpf',"=", $destinario)->get();
         $rem = $this->dadosPessoais->findOrFail($id);
 
         if($rem['saldo'] >= $valor){
-            DB::table('dados_pessoais')->where('cpf', $destinario)->update(['saldo' => ($dest[0]['saldo']+$valor)]);
+            DB::table('users')->where('cpf', $destinario)->update(['saldo' => ($dest[0]['saldo']+$valor)]);
 
-            DB::table('dados_pessoais')->where('id', $id)->update(['saldo' => ($rem['saldo']-$valor)]);
+            DB::table('creditos')->insert([
+                'nome' => "Recebimento de DOC",
+                'transferencia' => 1,
+                'valor' => $valor,
+                'remetente' => $rem['nome'],
+                'id_pessoa' => $dest[0]['id'],
+            ]);
+
+            DB::table('users')->where('id', $id)->update(['saldo' => ($rem['saldo']-$valor)]);
         }else{
             echo "ERRO";
         }
+    }
+ 
+    
 
+    public function verificarSaldo($id){
+
+        try{
+            $data = $this->dadosPessoais->findOrFail($id);
+
+            $saldo = $data['saldo'];
+
+            return $saldo;
+
+        }catch(\Exception $e){
+            $messege = new ApiMessege($e->getMessage());
+            return response()->json($messege->getMessege(), 400);
+        }
         
     }
 }

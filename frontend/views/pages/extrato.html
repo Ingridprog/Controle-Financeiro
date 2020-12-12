@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrato</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+             <div class="container">
+                  <a href="#" class="navbar-brand">
+                      Controle Financeiro
+                  </a>
+                  <div class="collapse navbar-collapse">
+                       <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                 <a href="inicio.html" class="nav-link">Início</a>
+                            </li>
+                            <li class="nav-item active">
+                                 <a href="extrato.html" class="nav-link" >Extrato</a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="index.html" class="nav-link" onclick="logout()">Sair</a>
+                         </li>
+                       </ul>
+                  </div>
+             </div>
+        </nav>
+   </header>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Transferência</th>
+            <th scope="col">Valor</th>
+          </tr>
+        </thead>
+        <tbody id="tabela">
+
+        </tbody>
+        <tfoot>
+             <tr>
+                  <td></td>
+                  <td></td>
+                  <td style="text-align: right;">SALDO</td>
+                  <td id="saldo-final"></td>
+             </tr>
+        </tfoot>
+      </table>
+      <script src="../assets/js/jquery.js"></script>
+      <script src="../assets/js/extrato.js"></script>
+      <script src="../assets/js/login.js"></script>
+      <script>
+          $(document).ready(function () {
+            extrato();
+          })
+      </script>
+</body>
+</html>

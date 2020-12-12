@@ -26,7 +26,7 @@
                                    <a href="extrato.html" class="nav-link">Extrato</a>
                               </li>
                               <li class="nav-item">
-                                <a href="index.html" class="nav-link">Sair</a>
+                                <a href="index.html" class="nav-link" onclick="logout()">Sair</a>
                            </li>
                          </ul>
                     </div>
@@ -42,17 +42,21 @@
           <form>
             <div class="form-group">
                 <label for="tipo">Tipo de transação</span></label>
-                <select id="tipo" name="tipo" class="form-control w-15" required>
+                <select id="tipo" name="tipo" class="form-control w-15" required onchange="mudarCampo()">
                     <option value="" selected disabled>Selecione uma transação</option>
                     <option value="1">Crédito</option>
                     <option value="2">Débito</option>
                     <option value="3">Transferência</option>
                 </select>
             </div>
-            <div class="form-group">
-              <label for="valor">Nome</label>
+            <div class="form-group" id="nome_wrapper">
+              <label for="nome">Nome</label>
               <input type="text" class="form-control" required id="nome" placeholder="Nome da transação">
             </div>
+            <div class="form-group" id="destinatario_wrapper">
+               <label for="destinatario">CPF</label>
+               <input type="text" class="form-control" required id="destinatario" placeholder="Destinatário" onkeydown="javascript: fMasc( this, mCPF );" MAXLENGTH="14">
+             </div>
             <div class="form-group">
               <label for="valor">Valor</label>
               <input type="number" min="0" class="form-control" required id="valor" placeholder="R$">
@@ -71,9 +75,13 @@
      <script src="../assets/js/jquery.js"></script>
      <script src="../assets/js/cadastro-cliente.js"></script>
      <script src="../assets/js/inicio.js"></script>
+     <script src="../assets/js/helpers.js"></script>
+     <script src="../assets/js/input_field_validator.js"></script>
+     <script src="../assets/js/login.js"></script>
      <script>
           $(document).ready(function () {
               recuperarDadosCliente();
+              carregarCliente()
           })
        </script>
 </body>

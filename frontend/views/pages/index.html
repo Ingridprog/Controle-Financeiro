@@ -12,9 +12,10 @@
         <div id="formContent">
           <h4 class="h3">Bem-vindo(a)</h4>
           <form>
-            <input type="text" id="login" class="fadeIn second cpf" name="entrar_cpf" placeholder="CPF" required
+            <input type="text" id="cpf" class="fadeIn second campo" name="entrar_cpf" placeholder="CPF" required
             onkeydown="javascript: fMasc( this, mCPF );" MAXLENGTH="14">
-            <input type="submit" class="fadeIn fourth" value="ENTRAR">
+            <input type="text" id="password" class="fadeIn second campo" name="entrar_password" placeholder="**********" required>
+            <input type="button" class="fadeIn fourth" value="ENTRAR" onclick="logar()">
           </form>
           <div id="formFooter">
             <a class="underlineHover" href="cadastro-cliente.html">Não é cliente? Cadastre-se</a>
@@ -23,5 +24,6 @@
       </div>
       <script src="../assets/js/jquery.js"></script>
       <script src="../assets/js/input_field_validator.js"></script>
+      <script src="../assets/js/login.js"></script>
 </body>
 </html>
