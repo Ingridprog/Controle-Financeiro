@@ -10,30 +10,21 @@
 
 **Subindo o projeto:** 
 
-    * Empresa;
-    * Nome;
-    * CPF ou CNPJ;
-    * Telefone;
+    * Rodar o comando: composer install --no-scripts;
+    * Criar um arquivo .env e copiar os dados de .env.example(o arquivo pode estar oculto);
+    * No diretório backend - gerar a chave da aplicação: php artisan key:generate;
+    * Gerar a hash dos tokens: php artisan jwt:secret;
+    * Criar o banco de dados e configurar o DB_DATABASE, DB_USER e DB_PASSWORD no arquivo .env;
+    * Rodar o comando: php artisan migrate;
 
-**Regras:** 
+**Utilizando o sistema:** 
 
-    * Criar uma tela para cadastro de fornecedor e uma para empresa;
-    * O Fornecedor deverá estar associado a uma empresa;
-    * Validar e usar máscaras para os campos CNPJ ou CPF da empresa e fornecedor;
-    * Caso o fornecedor seja pessoa física necessários o cadastro do RG;
-    * Criar tela para exibir fornecedor e empresa (poderá ser exibido na mesma tela);
+    * Na página index - clicar em cadastrar um cliente
+    * Após o cadastro, fazer o login
+    * Em transacoes, adicionar créditos 
+    * Realizar operações de débito e transferência
 
-**Requisitos**
 
-    * Apenas para conhecimento, segue as tecnologias que utilizamos nos nossos projetos PHP.
-    * Backend: Laravel, PHP;
-    * FrontEnd: Laravel, PHP;
-    * Conceitual: POO e Qualidade e organização de código;
-    * Versionamento: GIT
-
-**Observação:**
-
-    * Será criado dois projetos (Backend para persistir e recuperar as informações – API) e (FrontEnd para exibir as informações – CLIENT);
 
 
 

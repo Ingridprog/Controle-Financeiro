@@ -28,8 +28,7 @@ function cadastroCliente() {
         success: function (data) {
             alert(data.messege)
             $("#double_req_block").addClass('d-none')
-            localStorage.setItem('cliente', JSON.stringify(data.data))
-            window.location.href = 'inicio.html';
+            window.location.href = 'index.html';
         },
         error: function (data) {
             $("#double_req_block").addClass('d-none')
